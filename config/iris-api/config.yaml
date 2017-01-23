@@ -1,0 +1,61 @@
+server:
+  disable_auth: True
+oncall: https://oncall.prod.linkedin.com
+role_lookup: dummy
+
+#metrics: amf
+
+metrics: prometheus
+prometheus:
+  iris-sync-targets:
+    server_port: 8001
+  iris-sender:
+    server_port: 8002
+
+#metrics: influx
+#influxdb:
+#  connect:
+#    host: localhost
+#    port: 8086
+#    database: iris
+
+db: &db
+  conn:
+    kwargs:
+      scheme: mysql+pymysql
+      user: iris
+      password: iris
+      host: db
+      database: iris
+      charset: utf8
+    str: "%(scheme)s://%(user)s:%(password)s@%(host)s/%(database)s?charset=%(charset)s"
+  query_limit: 500
+  kwargs:
+    pool_recycle: 3600
+    echo: False
+    pool_size: 100
+    max_overflow: 100
+    pool_timeout: 60
+sync_script:
+  preset_users:
+    - name: noc
+      call: '650-605-1777'
+      email: 'noc@linkedin.com'
+      manager: null
+      sms: null
+# validators:
+#   - noc
+sender:
+  debug: True
+  host: 127.0.0.1
+  port: 2321
+
+vendors: []
+#  - type: iris_twilio
+#    name: twilio_1
+#    account_sid: ''
+#    auth_token: ''
+#    twilio_number: ''
+#    relay_base_url: ''
+
+healthcheck_path: /tmp/status

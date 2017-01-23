@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'Iris'
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+          - 'iris-api:8002'
+        labels:
+          group: Iris-Sender

@@ -1,0 +1,71 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./persist/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: iris
+      MYSQL_DATABASE: iris
+      MYSQL_USER: iris
+      MYSQL_PASSWORD: iris
+
+  iris-api:
+    depends_on:
+      - db
+    build: ./iris-api
+    links:
+      - db
+    ports:
+      - '16649:16649'
+    restart: always
+    environment:
+      # This makes iris-api initialize the db schema upon first run
+      DOCKER_DB_BOOTSTRAP: 'true'
+    volumes:
+      - ./config/iris-api:/home/iris/config
+      - ./logs/iris-api/nginx:/home/iris/var/log/nginx
+      - ./logs/iris-api/uwsgi:/home/iris/var/log/uwsgi
+
+  iris-frontend:
+    depends_on:
+      - iris-api
+    build: ./iris-frontend
+    links:
+      - iris-api
+    ports:
+      - '16650:16650'
+    restart: always
+    volumes:
+      - ./config/iris-frontend:/home/iris/config
+      - ./logs/iris-frontend/nginx:/home/iris/var/log/nginx
+      - ./logs/iris-frontend/uwsgi:/home/iris/var/log/uwsgi
+
+  iris-relay:
+    depends_on:
+      - iris-api
+    build: ./iris-relay
+    links:
+      - iris-api
+    ports:
+      - '16648:16648'
+    restart: always
+    volumes:
+      - ./config/iris-relay:/home/iris/config
+      - ./logs/iris-relay/nginx:/home/iris/var/log/nginx
+      - ./logs/iris-relay/uwsgi:/home/iris/var/log/uwsgi
+      - ./persist/iris-relay:/home/iris/var/relay
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./persist/prometheus:/prometheus-data
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    links:
+      - iris-api
+    depends_on:
+      - iris-api
+    restart: always
+    ports:
+      - 9090:9090

@@ -1,0 +1,68 @@
+# these values are mostly dummies to satisfy the end to end tests.
+# if you want to run this seriously you will need to change most/all of it
+server:
+  enable_basic_auth: False
+  #debug: True
+  basic_auth:
+    user1: 'pass1'
+  lb_routing_path: /iris-relay
+twilio:
+  remote_host: 'localhost:11648'
+  auth_token: 'foobar'
+
+# change this to where you have iris-api running
+iris:
+  host: iris-api
+  port: 16649
+  api_key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  hook:
+    gmail: 'response/gmail'
+    twilio_calls: 'response/twilio/calls'
+    twilio_messages: 'response/twilio/messages'
+
+gmail:
+  private_key: |-
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDPeQKT9OUoUw/C
+    P1drvmzK2vIqdUigCP8BFY9G2SAzCiQzEY3Y/ReGqI9UBKCiHolbb9egPpYCiSvE
+    SXHwGXCyghrtBmXoNq+5MysTSzhiiPCTF9Ljyf/BM/fIPdib9zuSZBk+JoIQLxjd
+    TPM/t0YuPH5+ZGX7k+cueQURItJvqUcEDofRA9u/TjRr+0Vupbs+xmFOyR4UYQY5
+    OVfHUmOguAVZNEL3wVJqi7PXGLqkFvQHnYt5i6kfhvzHAK4MHhGzNm+hTPOVb3zA
+    eAYQ07xKxJDF9jUfUx35NphXQtNqh3wqQYH8EX3MArfoFI61KW0bid7N4E1F+j60
+    mSKANMO/AgMBAAECggEBAI+Jm/P7ITO1y5hLNFMxipkJwzMGs3ks4CfC375XZ4SI
+    RqUiRu3RpB4grhClpvCiics95INT6XrVpfcGDRLctvB5POGxZH20n/xUXz/Y8aiS
+    L0bE272Gui/ToWDjEOJOuOM954ztHVzPCLfKjhwN0zsX1Tfig//6wp2PUqcZXVes
+    GPbLL0r8iZdsVgfLIr6xT6vSMRmgADMvFeDZznOkbW1is4FCxurFAvJH5YQn6vWe
+    6gIB/CL099aOOl1QzVgb274I/pzEX7A6kiqTSXadjmk7IyUQfLpkqyE18RxntngZ
+    LE3IGW5b+4Pu93lGQ5ugQ4c8QvqW5c3yLlsUnXrZEeECgYEA9tG/JgM61c4ZbmdF
+    D8PoXdqtdiHC9sVqHZqbJTlSeY1O7JMD2LsGrB1OncT3B3xfLtXAkSgopuIdqx+4
+    waIuBY8egxSErfFA/2ZAy3z7/OFL4YVztFCOgDuRhYFBhEpkI2PkodDgz8/42P4V
+    Rfn68B1FsIW28qPRDercfA+8J48CgYEA1zCZNcNlukGkFXms7heebYEV0FGCMw6U
+    kfPHqSd6d+JptQk0779f7Imf5OjvajuQixMAaubMjAB6cDrLt35OxG4wUqTlm0uD
+    gxlslCGDwwKAFaG0MhiVPJyO6Spuq09/5q27clrkSd5H5vbK8gTY13U7HhnaVxmQ
+    lgKJcUXkCNECgYEAx7Ki5r2cP9r2RpZ1kTDf8/f3euoMFZ9aoUMzHeYILeLAJbc5
+    WITR/DXmIs53VG4zkPBPUuLcKVIv0QHkeX6fn83RURsr0pStEzeHW1zvgQZEX96a
+    5Bx9f5Eyx4LyIHgUF3I+TRJ0oo9Rdzf0vF5qwxXcCdvWTvFuNsV8yT/t608CgYAK
+    hTG4UykyBeuDsUMnELiKGfl7CcEXxeq1h/mG54sxOTx5wU15Ox3xbnkGs+yggPD8
+    G521nDr7zTovKnCzM9Wd/NUX9T/Ua8iuLBwG0eyjKAgjBpjMqi8Bm5XRCGYIsgZK
+    vMuhN5hZlChnvkEFu/7t6alOO21VPMa4zr7xbr1LQQKBgCRv17FnwA27TXL/DGXC
+    ZUQfJP9yeOGjg6Ojz/uuMxLq5olFt7dfLXf9dCq5gh0bEl2+jL0u9iGUwohvyWTM
+    L1BObTC4CndPMKPVXprhCK6NqnzKJlFe5jGfDfpKB2KzXTvXn5BvaPAghbYhkBRP
+    BFWYEEIY+q1adgJxhDR0Z69t
+    -----END PRIVATE KEY-----
+  project: api-project-412547431019
+  push_endpoint: https://www.linkedin.com/iris-relay/api/v0/gmail/relay
+  creds: './deployment/client_secret.apps.googleusercontent.com.json'
+  scope:
+    - https://mail.google.com/
+    - https://www.googleapis.com/auth/pubsub
+  service_account_name: 412547431019-l9vumc682bp3dufu4tovglg8h56el7vf@developer.gserviceaccount.com
+  sub: linkedin.iris@gmail.com
+  subscription: gmail
+  token: 9659c4f70f6fdf14579cb0d25c739fa2
+  topic: iris_gmail_push
+  creds: './deployment/client_secret.apps.googleusercontent.com.json'
+  verification_code: googleabcdefg.html
+  var_dir: '/home/iris/var/relay'
+
+gmail_one_click_url_key: 'foo'
