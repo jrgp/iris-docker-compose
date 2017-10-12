@@ -16,7 +16,7 @@ Spin up the cluster
 
     make
 
-Start your web browser and go to: http://localhost:16650
+Start your web browser and go to: http://localhost:16649
 
 Stop the stack..
 

@@ -3,7 +3,17 @@ server:
 oncall: https://oncall.prod.linkedin.com
 role_lookup: dummy
 
-#metrics: amf
+# Change these to random long strings when you run this in production
+user_session:
+  encrypt_key: 'abc'
+  sign_key: '123'
+
+# To use ldap auth, instead of fake passwordless auth, fill all this out
+#auth:
+#  module: 'iris_api.ui.auth.ldap'
+#  ldap_user_suffix: '@yourdomain.com'
+#  ldap_url: 'ldaps://your-ldap-server.com'
+#  ldap_cert_path: path/to/your/cert/pem
 
 metrics: prometheus
 prometheus:

@@ -1,7 +1,7 @@
 version: '2'
 services:
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     volumes:
       - ./persist/mysql:/var/lib/mysql
     restart: always
@@ -14,7 +14,8 @@ services:
   iris-api:
     depends_on:
       - db
-    build: ./iris-api
+    #build: ./iris-api
+    image: iris-api
     links:
       - db
     ports:
@@ -27,35 +28,6 @@ services:
       - ./config/iris-api:/home/iris/config
       - ./logs/iris-api/nginx:/home/iris/var/log/nginx
       - ./logs/iris-api/uwsgi:/home/iris/var/log/uwsgi
-
-  iris-frontend:
-    depends_on:
-      - iris-api
-    build: ./iris-frontend
-    links:
-      - iris-api
-    ports:
-      - '16650:16650'
-    restart: always
-    volumes:
-      - ./config/iris-frontend:/home/iris/config
-      - ./logs/iris-frontend/nginx:/home/iris/var/log/nginx
-      - ./logs/iris-frontend/uwsgi:/home/iris/var/log/uwsgi
-
-  iris-relay:
-    depends_on:
-      - iris-api
-    build: ./iris-relay
-    links:
-      - iris-api
-    ports:
-      - '16648:16648'
-    restart: always
-    volumes:
-      - ./config/iris-relay:/home/iris/config
-      - ./logs/iris-relay/nginx:/home/iris/var/log/nginx
-      - ./logs/iris-relay/uwsgi:/home/iris/var/log/uwsgi
-      - ./persist/iris-relay:/home/iris/var/relay
 
   prometheus:
     image: prom/prometheus
