@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     #build: ./iris-api
-    image: iris-api
+    image: quay.io/iris/iris
     links:
       - db
     ports:
