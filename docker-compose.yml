@@ -1,23 +1,24 @@
-version: '2'
+version: '3'
 services:
   db:
-    image: mysql:8.0
+    image: mysql:5.7
     volumes:
       - ./persist/mysql:/var/lib/mysql
     restart: always
+    command: mysqld --sql_mode=""
     environment:
       MYSQL_ROOT_PASSWORD: iris
       MYSQL_DATABASE: iris
       MYSQL_USER: iris
       MYSQL_PASSWORD: iris
+    networks:
+      - iris_net
 
   iris-api:
     depends_on:
       - db
     #build: ./iris-api
     image: quay.io/iris/iris
-    links:
-      - db
     ports:
       - '16649:16649'
     restart: always
@@ -28,16 +29,22 @@ services:
       - ./config/iris-api:/home/iris/config
       - ./logs/iris-api/nginx:/home/iris/var/log/nginx
       - ./logs/iris-api/uwsgi:/home/iris/var/log/uwsgi
+    networks:
+      - iris_net
 
   prometheus:
     image: prom/prometheus
     volumes:
       - ./persist/prometheus:/prometheus-data
       - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    links:
-      - iris-api
     depends_on:
       - iris-api
     restart: always
     ports:
       - 9090:9090
+    networks:
+      - iris_net
+
+networks:
+  iris_net:
+    driver: bridge
