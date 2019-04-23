@@ -32,6 +32,24 @@ services:
     networks:
       - iris_net
 
+  iris-relay:
+    depends_on:
+      - iris-api
+      - db
+    image: quay.io/iris/iris-relay
+    ports:
+      - '16648:16648'
+    restart: always
+    environment:
+      # This makes iris-relay initialize the db schema upon first run
+      DOCKER_DB_BOOTSTRAP: 'true'
+    volumes:
+      - ./config/iris-relay:/home/iris-relay/config
+      - ./logs/iris-relay/nginx:/home/iris-relay/var/log/nginx
+      - ./logs/iris-relay/uwsgi:/home/iris-relay/var/log/uwsgi
+    networks:
+      - iris_net
+
   prometheus:
     image: prom/prometheus
     volumes:
